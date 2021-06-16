@@ -1,4 +1,4 @@
-module names-generator
+module github.com/mmuoDev/names-generator
 
 go 1.15
 

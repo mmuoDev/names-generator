@@ -1,7 +1,7 @@
 package names_test
 
 import (
-	"names-generator"
+	"github.com/mmuoDev/names-generator"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

@@ -1,7 +1,7 @@
 package names_test
 
 import (
-	"github.com/mmuoDev/names-generator"
+	"github.com/mmuoDev/names-generator/names"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -13,7 +13,6 @@ func TestNamesAreRetrievedFromFiles(t *testing.T) {
 	//male
 	for _, tribe := range tribes {
 		r := names.GetNames(tribe, "male")
-		t.Log("res", tribe, r)
 		assert.NotEmpty(t, r)
 
 	}

@@ -28,21 +28,21 @@ func GetNames(tribe, gender string) []string {
 	var person Person
 	if tribe == "igbo" {
 		if gender == "female" {
-			httputils.FileToStruct(filepath.Join("files", "igbo_female.json"), &person)
+			httputils.FileToStruct(filepath.Join("names", "igbo_female.json"), &person)
 		} else {
-			httputils.FileToStruct(filepath.Join("files", "igbo_male.json"), &person)
+			httputils.FileToStruct(filepath.Join("names", "igbo_male.json"), &person)
 		}
 	} else if tribe == "yoruba" {
 		if gender == "female" {
-			httputils.FileToStruct(filepath.Join("files", "yoruba_female.json"), &person)
+			httputils.FileToStruct(filepath.Join("names", "yoruba_female.json"), &person)
 		} else {
-			httputils.FileToStruct(filepath.Join("files", "yoruba_male.json"), &person)
+			httputils.FileToStruct(filepath.Join("names", "yoruba_male.json"), &person)
 		}
 	} else if tribe == "hausa" {
 		if gender == "female" {
-			httputils.FileToStruct(filepath.Join("files", "hausa_female.json"), &person)
+			httputils.FileToStruct(filepath.Join("names", "hausa_female.json"), &person)
 		} else {
-			httputils.FileToStruct(filepath.Join("files", "hausa_male.json"), &person)
+			httputils.FileToStruct(filepath.Join("names", "hausa_male.json"), &person)
 		}
 	}
 

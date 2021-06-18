@@ -57,6 +57,9 @@ func GenerateRandomNames(tribe, gender string, count int) ([]string, error) {
 		return res, fmt.Errorf("The tribe, %s is an invalid tribe", tribe)
 	}
 	names := GetNames(tribe, gender)
+	if len(names) == 0 {
+		return res, fmt.Errorf("The tribe, %s returned no names", tribe)
+	}
 	for i := 1; i <= count; i++ {
 		n := names[rand.Intn(len(names))]
 		res = append(res, n)

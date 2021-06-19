@@ -112,6 +112,6 @@ func GenerateRandomNames(tribe, gender string, count int) ([]string, error) {
 	return res, nil
 }
 
-func Test(s string) bool {
+func TestFxn(s string) bool {
 	return false
 }

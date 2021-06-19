@@ -1,12 +1,12 @@
 package names
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"math/rand"
 	"path/filepath"
 	"time"
-
-	"github.com/mmuoDev/commons/httputils"
 )
 
 //Person represents names of persons
@@ -24,29 +24,67 @@ func IsValidTribe(tribe string) bool {
 	return false
 }
 
-func GetNames(tribe, gender string) []string {
-	var person Person
-	if tribe == "igbo" {
-		if gender == "female" {
-			httputils.FileToStruct(filepath.Join("files", "igbo_female.json"), &person)
-		} else {
-			httputils.FileToStruct(filepath.Join("files", "igbo_male.json"), &person)
-		}
-	} else if tribe == "yoruba" {
-		if gender == "female" {
-			httputils.FileToStruct(filepath.Join("files", "yoruba_female.json"), &person)
-		} else {
-			httputils.FileToStruct(filepath.Join("files", "yoruba_male.json"), &person)
-		}
-	} else if tribe == "hausa" {
-		if gender == "female" {
-			httputils.FileToStruct(filepath.Join("files", "hausa_female.json"), &person)
-		} else {
-			httputils.FileToStruct(filepath.Join("files", "hausa_male.json"), &person)
-		}
+//fileToStruct converts a file to a struct
+func fileToStruct(filepath string, s interface{}) error {
+	bb, err := ioutil.ReadFile(filepath)
+	json.Unmarshal(bb, s)
+	if err != nil {
+		return err
 	}
+	return nil
+}
 
-	return person.Names
+func retrieveNamesFromFiles(tribe, gender string, p Person) (Person, error) {
+	switch tribe {
+	case "igbo":
+
+		if gender == "male" {
+			err := fileToStruct(filepath.Join("files", "igbo_male.json"), &p)
+			return p, err
+		}
+		err := fileToStruct(filepath.Join("files", "igbo_female.json"), &p)
+		return p, err
+	case "yoruba":
+		if gender == "male" {
+			err := fileToStruct(filepath.Join("files", "yoruba_male.json"), &p)
+			return p, err
+		}
+		err := fileToStruct(filepath.Join("files", "yoruba_female.json"), &p)
+		return p, err
+	case "hausa":
+		if gender == "male" {
+			err := fileToStruct(filepath.Join("files", "hausa_male.json"), &p)
+			return p, err
+		}
+		err := fileToStruct(filepath.Join("files", "hausa_female.json"), &p)
+		return p, err
+	}
+	return p, nil
+}
+
+func GetNames(tribe, gender string) ([]string, error) {
+	var person Person
+	switch tribe {
+	case "igbo":
+		p, err := retrieveNamesFromFiles(tribe, gender, person)
+		if err != nil {
+			return person.Names, err
+		}
+		return p.Names, nil
+	case "yoruba":
+		p, err := retrieveNamesFromFiles(tribe, gender, person)
+		if err != nil {
+			return person.Names, err
+		}
+		return p.Names, nil
+	case "hausa":
+		p, err := retrieveNamesFromFiles(tribe, gender, person)
+		if err != nil {
+			return person.Names, err
+		}
+		return p.Names, nil
+	}
+	return person.Names, nil
 }
 
 func GenerateRandomNames(tribe, gender string, count int) ([]string, error) {
@@ -56,9 +94,9 @@ func GenerateRandomNames(tribe, gender string, count int) ([]string, error) {
 	if !isValid {
 		return res, fmt.Errorf("The tribe, %s is an invalid tribe", tribe)
 	}
-	names := GetNames(tribe, gender)
-	if len(names) == 0 {
-		return res, fmt.Errorf("The tribe, %s returned no names", tribe)
+	names, err := GetNames(tribe, gender)
+	if err != nil {
+		return res, fmt.Errorf("Something went wrong, err=%v", err)
 	}
 	for i := 1; i <= count; i++ {
 		n := names[rand.Intn(len(names))]

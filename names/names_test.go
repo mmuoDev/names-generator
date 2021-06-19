@@ -12,14 +12,15 @@ func TestNamesAreRetrievedFromFiles(t *testing.T) {
 
 	//male
 	for _, tribe := range tribes {
-		r := names.GetNames(tribe, "male")
+		r, err := names.GetNames(tribe, "male")
+		t.Log("err", err)
 		assert.NotEmpty(t, r)
 
 	}
 
 	//female
 	for _, tribe := range tribes {
-		r := names.GetNames(tribe, "female")
+		r, _ := names.GetNames(tribe, "female")
 		assert.NotEmpty(t, r)
 
 	}

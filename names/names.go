@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"math/rand"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -28,9 +29,10 @@ func IsValidTribe(tribe string) bool {
 
 //fileToStruct converts a file to a struct
 func fileToStruct(filepath string, s interface{}) error {
+	path, _ := os.Getwd()
 	bb, err := ioutil.ReadFile(filepath)
 	if err != nil {
-		return errors.Wrapf(err, "Unable to read file at path=%s", filepath)
+		return errors.Wrapf(err, "Unable to read file at path=%s, looking at current path=%s", filepath, path)
 	}
 	if err := json.Unmarshal(bb, s); err != nil {
 		return errors.Wrap(err, "Unable to unmarshal struct")
@@ -110,6 +112,6 @@ func GenerateRandomNames(tribe, gender string, count int) ([]string, error) {
 	return res, nil
 }
 
-func Test(s string) string {
-	return s
+func Test(s string) bool {
+	return false
 }

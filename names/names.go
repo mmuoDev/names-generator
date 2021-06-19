@@ -1,11 +1,10 @@
 package names
 
 import (
+	"embed"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"math/rand"
-	"os"
 	"path/filepath"
 	"time"
 
@@ -29,11 +28,15 @@ func IsValidTribe(tribe string) bool {
 
 //fileToStruct converts a file to a struct
 func fileToStruct(filepath string, s interface{}) error {
-	path, _ := os.Getwd()
-	bb, err := ioutil.ReadFile(filepath)
-	if err != nil {
-		return errors.Wrapf(err, "Unable to read file at path=%s, looking at current path=%s", filepath, path)
+	//bb, err := ioutil.ReadFile(filepath)
+	var content embed.FS
+	bb, e := content.ReadFile("files/igbo_male.json")
+	if e != nil {
+		panic(e)
 	}
+	// if err != nil {
+	// 	return errors.Wrapf(err, "Unable to read file at path=%s", filepath)
+	// }
 	if err := json.Unmarshal(bb, s); err != nil {
 		return errors.Wrap(err, "Unable to unmarshal struct")
 	}

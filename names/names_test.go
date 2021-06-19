@@ -12,8 +12,7 @@ func TestNamesAreRetrievedFromFiles(t *testing.T) {
 
 	//male
 	for _, tribe := range tribes {
-		r, err := names.GetNames(tribe, "male")
-		t.Log("err", err)
+		r, _ := names.GetNames(tribe, "male")
 		assert.NotEmpty(t, r)
 
 	}

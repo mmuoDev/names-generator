@@ -7,6 +7,8 @@ import (
 	"math/rand"
 	"path/filepath"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
 //Person represents names of persons
@@ -27,9 +29,11 @@ func IsValidTribe(tribe string) bool {
 //fileToStruct converts a file to a struct
 func fileToStruct(filepath string, s interface{}) error {
 	bb, err := ioutil.ReadFile(filepath)
-	json.Unmarshal(bb, s)
 	if err != nil {
-		return err
+		return errors.Wrapf(err, "Unable to read file at path=%s", filepath)
+	}
+	if err := json.Unmarshal(bb, s); err != nil {
+		return errors.Wrap(err, "Unable to unmarshal struct")
 	}
 	return nil
 }

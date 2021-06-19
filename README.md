@@ -1,5 +1,5 @@
 # names-generator
-Generate random Nigerian names for testing
+Generate random Nigerian names for testing purpose
 ## Usage
 
 ### Install Package

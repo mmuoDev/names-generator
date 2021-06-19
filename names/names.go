@@ -109,3 +109,7 @@ func GenerateRandomNames(tribe, gender string, count int) ([]string, error) {
 
 	return res, nil
 }
+
+func Test(s string) string {
+	return s
+}

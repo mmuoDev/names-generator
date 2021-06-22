@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io/fs"
 	"math/rand"
-	"path/filepath"
 	"time"
 
 	"github.com/pkg/errors"
@@ -32,15 +31,11 @@ func IsValidTribe(tribe string) bool {
 
 //fileToStruct converts a file to a struct
 func fileToStruct(filepath string, s interface{}) error {
-	//bb, err := ioutil.ReadFile(filepath)
-	
-	//bb, e := content.ReadFile(filepath)
 	files, err := fs.ReadDir(content, "files")
 	if err != nil {
 		panic(err)
 	}
 	for _, file := range files {
-		fmt.Print("file name", file.Name())
 		if file.Name() == filepath {
 			bb, err := content.ReadFile(filepath)
 			if err != nil {
@@ -49,13 +44,10 @@ func fileToStruct(filepath string, s interface{}) error {
 			if err := json.Unmarshal(bb, s); err != nil {
 				return errors.Wrap(err, "Unable to unmarshal struct")
 			}
+			break
 		}
 	}
-	
-	// if err != nil {
-	// 	return errors.Wrapf(err, "Unable to read file at path=%s", filepath)
-	// }
-	
+
 	return nil
 }
 
@@ -64,24 +56,24 @@ func retrieveNamesFromFiles(tribe, gender string, p Person) (Person, error) {
 	case "igbo":
 
 		if gender == "male" {
-			err := fileToStruct(filepath.Join("files", "igbo_male.json"), &p)
+			err := fileToStruct("igbo_male.json", &p)
 			return p, err
 		}
-		err := fileToStruct(filepath.Join("files", "igbo_female.json"), &p)
+		err := fileToStruct("igbo_female.json", &p)
 		return p, err
 	case "yoruba":
 		if gender == "male" {
-			err := fileToStruct(filepath.Join("files", "yoruba_male.json"), &p)
+			err := fileToStruct("yoruba_male.json", &p)
 			return p, err
 		}
-		err := fileToStruct(filepath.Join("files", "yoruba_female.json"), &p)
+		err := fileToStruct("yoruba_female.json", &p)
 		return p, err
 	case "hausa":
 		if gender == "male" {
-			err := fileToStruct(filepath.Join("files", "hausa_male.json"), &p)
+			err := fileToStruct("hausa_male.json", &p)
 			return p, err
 		}
-		err := fileToStruct(filepath.Join("files", "hausa_female.json"), &p)
+		err := fileToStruct("hausa_female.json", &p)
 		return p, err
 	}
 	return p, nil
@@ -123,6 +115,9 @@ func GenerateRandomNames(tribe, gender string, count int) ([]string, error) {
 	if err != nil {
 		return res, fmt.Errorf("Something went wrong, err=%v", err)
 	}
+	if len(names) == 0 {
+		return res, fmt.Errorf("No names for this tribe =%s", tribe)
+	}
 	for i := 1; i <= count; i++ {
 		n := names[rand.Intn(len(names))]
 		res = append(res, n)
@@ -131,6 +126,3 @@ func GenerateRandomNames(tribe, gender string, count int) ([]string, error) {
 	return res, nil
 }
 
-func TestFxn(s string) bool {
-	return false
-}

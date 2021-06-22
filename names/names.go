@@ -16,6 +16,9 @@ type Person struct {
 	Names []string `json:"names"`
 }
 
+//go:embed files/*
+var content embed.FS
+
 func IsValidTribe(tribe string) bool {
 	tribes := [3]string{"yoruba", "igbo", "hausa"}
 	for _, t := range tribes {
@@ -29,9 +32,7 @@ func IsValidTribe(tribe string) bool {
 //fileToStruct converts a file to a struct
 func fileToStruct(filepath string, s interface{}) error {
 	//bb, err := ioutil.ReadFile(filepath)
-	//go:embed files/*
-	var content embed.FS
-
+	
 	bb, e := content.ReadFile("igbo_male.json")
 	if e != nil {
 		panic(e)

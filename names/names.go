@@ -20,11 +20,13 @@ type Person struct {
 var content embed.FS
 
 func IsValidTribe(tribe string) bool {
-	tribes := [3]string{"yoruba", "igbo", "hausa"}
-	for _, t := range tribes {
-		if tribe == t {
-			return true
-		}
+	tribes := map[string]bool{
+		"yoruba": true,
+		"igbo": true,
+		"hausa": true,
+	}
+	if _, ok := tribes[tribe]; ok {
+		return true
 	}
 	return false
 }
@@ -54,7 +56,6 @@ func fileToStruct(filepath string, s interface{}) error {
 func retrieveNamesFromFiles(tribe, gender string, p Person) (Person, error) {
 	switch tribe {
 	case "igbo":
-
 		if gender == "male" {
 			err := fileToStruct("igbo_male.json", &p)
 			return p, err

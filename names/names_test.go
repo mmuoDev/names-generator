@@ -26,6 +26,11 @@ func TestNamesAreRetrievedFromFiles(t *testing.T) {
 	}
 }
 
+func TestInvalidTribeReturnsFalse(t *testing.T){
+	isValid := names.IsValidTribe("cheetah")
+	assert.False(t, isValid)
+}
+
 func TestIgboNamesAreGenerated(t *testing.T) {
 	res, _ := names.GenerateRandomNames("igbo", "male", 2)
 	assert.NotEmpty(t, res)

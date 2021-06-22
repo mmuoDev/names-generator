@@ -19,16 +19,14 @@ type Person struct {
 //go:embed files/*
 var content embed.FS
 
+//IsValidTribe validates a tribe
 func IsValidTribe(tribe string) bool {
 	tribes := map[string]bool{
 		"yoruba": true,
 		"igbo": true,
 		"hausa": true,
 	}
-	if _, ok := tribes[tribe]; ok {
-		return true
-	}
-	return false
+	return tribes[tribe]
 }
 
 //fileToStruct converts a file to a struct

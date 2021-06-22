@@ -1,5 +1,5 @@
 # names-generator
-Generate random Nigerian names for testing purposes
+Generate random Nigerian names for testing purposes. This was written in Go
 ## Usage
 
 ### Install Package

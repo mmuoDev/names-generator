@@ -4,6 +4,7 @@ import (
 	"embed"
 	"encoding/json"
 	"fmt"
+	"io/fs"
 	"math/rand"
 	"path/filepath"
 	"time"
@@ -33,16 +34,28 @@ func IsValidTribe(tribe string) bool {
 func fileToStruct(filepath string, s interface{}) error {
 	//bb, err := ioutil.ReadFile(filepath)
 	
-	bb, e := content.ReadFile("igbo_male.json")
-	if e != nil {
-		panic(e)
+	//bb, e := content.ReadFile(filepath)
+	files, err := fs.ReadDir(content, "files")
+	if err != nil {
+		panic(err)
 	}
+	for _, file := range files {
+		fmt.Print("file name", file.Name())
+		if file.Name() == filepath {
+			bb, err := content.ReadFile(filepath)
+			if err != nil {
+				panic(err)
+			}
+			if err := json.Unmarshal(bb, s); err != nil {
+				return errors.Wrap(err, "Unable to unmarshal struct")
+			}
+		}
+	}
+	
 	// if err != nil {
 	// 	return errors.Wrapf(err, "Unable to read file at path=%s", filepath)
 	// }
-	if err := json.Unmarshal(bb, s); err != nil {
-		return errors.Wrap(err, "Unable to unmarshal struct")
-	}
+	
 	return nil
 }
 

@@ -20,7 +20,8 @@ genNames "github.com/mmuoDev/names-generator/names"
 )
 
 func main() {
-	names, err := genNames.GenerateRandomNames("yoruba", "male", 2)
+	numOfNames := 2
+	names, err := genNames.GenerateRandomNames("yoruba", "male", numOfNames)
 
 	if err != nil {
 		log.Fatal(err)

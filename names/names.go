@@ -37,7 +37,7 @@ func fileToStruct(filepath string, s interface{}) error {
 	}
 	for _, file := range files {
 		if file.Name() == filepath {
-			bb, err := content.ReadFile(filepath)
+			bb, err := content.ReadFile("files/" + file.Name())
 			if err != nil {
 				panic(err)
 			}
@@ -125,4 +125,3 @@ func GenerateRandomNames(tribe, gender string, count int) ([]string, error) {
 
 	return res, nil
 }
-
